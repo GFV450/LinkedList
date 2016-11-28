@@ -21,6 +21,7 @@ class LinkedList(object):
         """Initialize this linked list; append the given items, if any"""
         self.head = None
         self.tail = None
+
         if iterable:
             for item in iterable:
                 self.append(item)
@@ -31,13 +32,14 @@ class LinkedList(object):
 
     def as_list(self):
         """Return a list of all items in this linked list"""
-        result = []
-        current = self.head
-        while current is not None:
-            result.append(current.data)
-            # result.append(current)
-            current = current.next
-        return result
+        items_list = []
+        node = self.head
+
+        while node is not None:
+            items_list.append(node.data)
+            node = node.next
+
+        return items_list
 
     def is_empty(self):
         """Return True if this linked list is empty, or False"""
@@ -45,28 +47,71 @@ class LinkedList(object):
 
     def length(self):
         """Return the length of this linked list by traversing its nodes"""
-        # TODO: count number of items
-        pass
+        count = 0
+        node = self.head
+
+        while node is not None:
+            count += 1
+            node = node.next
+
+        return count
 
     def append(self, item):
         """Insert the given item at the tail of this linked list"""
-        # TODO: append given item
-        pass
+        new_node = Node(item)
+
+        if self.tail is not None:
+            tail_node = self.tail
+            self.tail.next = tail_node
+            self.tail = new_node
+        else:
+            self.tail = new_node
+            self.head = new_node
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list"""
-        # TODO: prepend given item
-        pass
+        new_node = Node(item)
+
+        if self.head is not None:
+            head_node = self.head
+            self.head.next = head_node
+            self.head = new_node
+        else:
+            self.head = new_node
+            self.tail = new_node
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError"""
-        # TODO: find given item and delete if found
-        pass
+        current_node = self.head
+
+        if current_node.data == item:
+
+            if current_node.data == self.tail.data:
+                self.head = None
+                self.tail = None
+            else:
+                self.head = current_node.next
+
+        while current_node.next is not None:
+            if current_node.next.data == item:
+
+                if current_node.next == self.tail:
+                    self.tail = current_node
+                    current_node.next = None
+                else:
+                    current_node.next = current_node.next.next
+            else:
+                current_node = current_node.next
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality"""
-        # TODO: find item where quality(item) is True
-        pass
+        current_node = self.head
+
+        while current_node.data is not None:
+            if quality(current_node.data) is True:
+                return current_node.data
+            else:
+                current_node = current_node.next
 
 
 def test_linked_list():
