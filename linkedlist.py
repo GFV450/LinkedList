@@ -64,6 +64,7 @@ class LinkedList(object):
             tail_node = self.tail
             self.tail.next = tail_node
             self.tail = new_node
+            print("a")
         else:
             self.tail = new_node
             self.head = new_node
@@ -84,22 +85,28 @@ class LinkedList(object):
         """Delete the given item from this linked list, or raise ValueError"""
         current_node = self.head
 
-        if current_node.data == item:
+        if self.head.data == item:
+            self.deleteHeadOrTail(self, current_node)
+        else:
+            self.deleteNodeMidList(self, current_node, item)
 
-            if current_node.data == self.tail.data:
-                self.head = None
-                self.tail = None
-            else:
-                self.head = current_node.next
+    def deleteHead(self):
+        if self.head.data == self.tail.data:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
 
+    def deleteNodeMidList(self, current_node, item):
         while current_node.next is not None:
             if current_node.next.data == item:
-
                 if current_node.next == self.tail:
                     self.tail = current_node
                     current_node.next = None
+                    break
                 else:
                     current_node.next = current_node.next.next
+                    break
             else:
                 current_node = current_node.next
 
